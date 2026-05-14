@@ -5,12 +5,16 @@
   "framework": "nextjs",
   "rewrites": [
     {
+      "source": "/api/(.*)",
+      "destination": "/api/index?path=api/$1"
+    },
+    {
       "source": "/storage/(.*)",
-      "destination": "/api/storage/$1"
+      "destination": "/api/index?path=storage/$1"
     },
     {
       "source": "/health",
-      "destination": "/api/health"
+      "destination": "/api/index?path=health"
     }
   ]
 }
