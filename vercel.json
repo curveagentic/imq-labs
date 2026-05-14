@@ -4,7 +4,24 @@
   "installCommand": "npm install --workspaces --include-workspace-root",
   "framework": "nextjs",
   "rewrites": [
-    { "source": "/storage/(.*)", "destination": "/api/storage/$1" },
-    { "source": "/health", "destination": "/api/health" }
-  ]
+    {
+      "source": "/storage/(.*)",
+      "destination": "/api/storage/$1"
+    },
+    {
+      "source": "/health",
+      "destination": "/api/health"
+    }
+  ],
+  "experimentalServices": {
+    "web": {
+      "entrypoint": "apps/web",
+      "routePrefix": "/",
+      "framework": "nextjs"
+    },
+    "api": {
+      "entrypoint": "services/api",
+      "routePrefix": "/api"
+    }
+  }
 }
