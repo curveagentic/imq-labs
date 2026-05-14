@@ -1,0 +1,25 @@
+{
+  "name": "imq-labs",
+  "private": true,
+  "version": "0.1.0",
+  "description": "IMQ Labs — AI music creation, collaboration, and monetization platform",
+  "workspaces": [
+    "apps/web",
+    "services/api"
+  ],
+  "scripts": {
+    "dev:api": "npm --workspace services/api run dev",
+    "dev:web": "npm --workspace apps/web run dev",
+    "dev": "concurrently -n api,web -c blue,green \"npm run dev:api\" \"npm run dev:web\"",
+    "db:init": "bash scripts/db_init.sh",
+    "stack:up": "docker compose -f infra/docker-compose.yml up -d",
+    "stack:down": "docker compose -f infra/docker-compose.yml down",
+    "stack:logs": "docker compose -f infra/docker-compose.yml logs -f"
+  },
+  "devDependencies": {
+    "@netlify/plugin-nextjs": "^5.7.0",
+    "concurrently": "^9.1.0",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "^14.2.35"
+  }
+}

@@ -1,0 +1,116 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+html, body {
+  background-color: #06060A;
+  color: #F5F5FA;
+  min-height: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Desktop wallpaper: subtle red/gold glow + grid so the centered phone frame
+   doesn't look isolated on a wide screen. On mobile, body bg fills naturally. */
+body {
+  background-image:
+    radial-gradient(60rem 60rem at 110% -10%, rgba(255, 26, 46, 0.16), transparent 60%),
+    radial-gradient(40rem 40rem at -10% 110%, rgba(212, 168, 72, 0.10), transparent 60%),
+    linear-gradient(180deg, #06060A 0%, #0A0A12 100%);
+  background-attachment: fixed;
+}
+
+@layer components {
+  /* Phone-width centering — no min-height, safe for fixed wrappers */
+  .phone-width {
+    @apply mx-auto w-full;
+    max-width: 480px;
+  }
+  /* Phone-frame container — full visible app surface */
+  .phone {
+    @apply phone-width min-h-screen bg-ink-900;
+  }
+  /* On desktop, give the phone a real frame with a soft red glow */
+  @media (min-width: 768px) {
+    .phone {
+      @apply mt-6 mb-6 rounded-[40px] border border-ink-500 shadow-2xl;
+      min-height: calc(100vh - 3rem);
+      box-shadow:
+        0 30px 80px -20px rgba(255, 26, 46, 0.25),
+        0 0 0 1px rgba(255, 255, 255, 0.04);
+    }
+  }
+  .screen {
+    @apply px-5 pt-6 pb-32;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl font-semibold transition active:scale-[0.98];
+  }
+  .btn-primary {
+    @apply btn bg-wave-500 text-white hover:bg-wave-600;
+  }
+  .btn-ghost {
+    @apply btn bg-ink-600 text-text hover:bg-ink-500;
+  }
+  .btn-gold {
+    @apply btn bg-gold-500 text-ink-900 hover:bg-gold-400;
+  }
+  .btn-outline {
+    @apply btn border border-ink-400 text-text hover:bg-ink-700;
+  }
+
+  .input {
+    @apply w-full bg-ink-700 border border-ink-500 rounded-xl px-4 py-3 text-text placeholder:text-text-dim focus:outline-none focus:border-wave-500;
+  }
+
+  .card {
+    @apply bg-ink-700 border border-ink-500 rounded-2xl p-4 shadow-card;
+  }
+
+  .pill {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium;
+  }
+  .pill-red   { @apply pill bg-wave-500/15 text-wave-500 border border-wave-500/30; }
+  .pill-gold  { @apply pill bg-gold-500/15 text-gold-400 border border-gold-500/30; }
+  .pill-ghost { @apply pill bg-ink-600 text-text-muted border border-ink-500; }
+
+  .label { @apply block text-xs uppercase tracking-wider text-text-muted mb-1; }
+
+  .tab-row {
+    @apply flex gap-6 border-b border-ink-500 px-1;
+  }
+  .tab {
+    @apply pb-3 text-sm font-medium text-text-muted relative;
+  }
+  .tab-active {
+    @apply text-wave-500;
+  }
+  .tab-active::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0; bottom: -1px;
+    height: 2px;
+    background: #FF1A2E;
+    border-radius: 2px;
+  }
+
+  .scroll-x { @apply flex overflow-x-auto gap-3 -mx-5 px-5 snap-x snap-mandatory; }
+  .scroll-x > * { @apply snap-start; }
+}
+
+/* hide native scrollbars on horizontal scrollers */
+.scroll-x::-webkit-scrollbar { display: none; }
+.scroll-x { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Slide-in for action sheets */
+@keyframes slide-up {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+.animate-slide-up { animation: slide-up 220ms cubic-bezier(.2,.8,.2,1); }

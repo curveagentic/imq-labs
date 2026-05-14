@@ -1,0 +1,43 @@
+# Netlify build config for IMQ Labs.
+# Frontend: Next.js (apps/web)  -> Netlify Next.js plugin (auto-detected).
+# Backend:  Express API         -> Netlify Function at /.netlify/functions/api.
+
+[build]
+  base    = "apps/web"
+  command = "npm install --workspaces --include-workspace-root && npm --workspace apps/web run build"
+  publish = ".next"
+
+[functions]
+  # Resolved from the repo root, not the [build].base directory.
+  directory             = "netlify/functions"
+  node_bundler          = "esbuild"
+  # Bundle the entire api src + its deps with the function.
+  included_files        = ["services/api/src/**", "services/api/package.json"]
+  external_node_modules = ["pg-native"]
+
+# Next.js plugin is auto-installed by Netlify, but pin it explicitly so the
+# build is reproducible.
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+# ----- redirects --------------------------------------------------------------
+# Everything the old express server handled at /api/* and /storage/* goes
+# through the same handler at /.netlify/functions/api. force=true so these
+# rules run before Next.js' own /api/* routing.
+[[redirects]]
+  from   = "/api/*"
+  to     = "/.netlify/functions/api/api/:splat"
+  status = 200
+  force  = true
+
+[[redirects]]
+  from   = "/storage/*"
+  to     = "/.netlify/functions/api/storage/:splat"
+  status = 200
+  force  = true
+
+[[redirects]]
+  from   = "/health"
+  to     = "/.netlify/functions/api/health"
+  status = 200
+  force  = true
