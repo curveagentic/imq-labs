@@ -5,6 +5,7 @@ const { Pool } = pg;
 export const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   max: 10,
+  connectionTimeoutMillis: 8000,
 });
 
 pool.on('error', (err) => {

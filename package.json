@@ -4,8 +4,7 @@
   "version": "0.1.0",
   "description": "IMQ Labs — AI music creation, collaboration, and monetization platform",
   "workspaces": [
-    "apps/web",
-    "services/api"
+    "apps/web"
   ],
   "scripts": {
     "dev:api": "npm --workspace services/api run dev",
@@ -15,6 +14,20 @@
     "stack:up": "docker compose -f infra/docker-compose.yml up -d",
     "stack:down": "docker compose -f infra/docker-compose.yml down",
     "stack:logs": "docker compose -f infra/docker-compose.yml logs -f"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.95.2",
+    "@fal-ai/client": "^1.2.1",
+    "@supabase/supabase-js": "^2.45.4",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
+    "pg": "^8.13.1",
+    "serverless-http": "^3.2.0",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@netlify/plugin-nextjs": "^5.7.0",
