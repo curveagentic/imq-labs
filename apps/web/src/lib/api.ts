@@ -1,7 +1,6 @@
-// When NEXT_PUBLIC_API_URL is empty the client calls the same origin — that's
-// the Netlify production setup (/api/* is redirected to the Function). For
-// local dev we fall back to the standalone Express on :4000.
-const API = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000';
+// Production should call the same origin so Vercel rewrites /api/* correctly.
+// Local dev can opt into the standalone Express API with NEXT_PUBLIC_API_URL.
+const API = process.env.NEXT_PUBLIC_API_URL || '';
 
 export type Role = 'artist' | 'fan';
 export type CollabKind = 'producer' | 'artist' | 'engineer' | 'songwriter' | 'vocalist';
